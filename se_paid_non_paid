@@ -1,0 +1,74 @@
+CREATE TABLE test.`tbl_google_amp_cnts_128_new` (
+  `search_date` DATE NOT NULL DEFAULT '0000-00-00',
+  `national_catid` INT NOT NULL DEFAULT '0',
+  `category_name` VARCHAR(100) NOT NULL DEFAULT '',
+  `data_city` VARCHAR(100) NOT NULL DEFAULT '',
+  `src` VARCHAR(100) NOT NULL DEFAULT '',
+  `pincode`VARCHAR(10) NOT NULL DEFAULT '',  
+  `google_amp` INT NOT NULL DEFAULT '0',
+  `google_weblight` INT NOT NULL DEFAULT '0',
+  `se_paid` INT NOT NULL DEFAULT '0',
+  `se_non_paid` INT NOT NULL DEFAULT '0',
+  `cnt` INT NOT NULL DEFAULT '0',
+  `direct` INT NOT NULL DEFAULT '0',
+  PRIMARY KEY (`search_date`,`national_catid`,`data_city`,`src`,`pincode`),
+  KEY `search_date` (`search_date`,`national_catid`,`data_city`,`src`,`pincode`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+#########################################################################
+
+INSERT INTO test.tbl_google_amp_cnts_128_new(search_date,national_catid,data_city,src,pincode,google_amp,google_weblight,se_paid,se_non_paid)
+SELECT search_date,national_catid,data_city,src,pincode,SUM(IF(b.display_name='google_amp',1,0)) google_amp,SUM(IF(b.display_name='google_weblight',1,0)) google_weblight,SUM(IF(b.display_name='se_paid',1,0)) se_paid,SUM(IF(b.display_name='se_nonpaid',1,0)) se_nonpaid FROM test.tbl_websearches_client_20220105_kr a JOIN search_input.tbl_src_cnt_master b 
+ON a.referrer_flag = b.referrer_flag AND b.level='2' GROUP BY search_date,national_catid,data_city,src,pincode;
+
+DROP TABLE test.tbl_google_cntKr5;
+CREATE TABLE test.tbl_google_cntKr5(
+search_date DATE NOT NULL DEFAULT '0000-00-00',
+national_catid INT(11) NOT NULL DEFAULT 0,
+data_city VARCHAR(100) NOT NULL DEFAULT '',
+src VARCHAR(50) NOT NULL DEFAULT '', 
+pincode VARCHAR(10) NOT NULL DEFAULT '', 
+cnt INT(11) NOT NULL DEFAULT 0,
+PRIMARY KEY(search_date,national_catid,data_city,src,pincode))ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+
+INSERT IGNORE  INTO  test.tbl_google_cntKr5
+SELECT a.search_date,a.national_catid,a.data_city,a.src,a.pincode,COUNT(1) cnt FROM test.tbl_websearches_client_20220105_kr a GROUP BY a.search_date,a.national_catid,a.data_city,a.src,a.pincode;
+
+INSERT IGNORE INTO test.tbl_google_amp_cnts_128_new(search_date,national_catid,data_city,src,pincode,cnt)
+SELECT search_date,national_catid,data_city,src,pincode,cnt FROM  test.tbl_google_cntKr5 a
+ON DUPLICATE KEY UPDATE
+test.tbl_google_amp_cnts_128_new.cnt=test.tbl_google_amp_cnts_128_new.cnt+a.cnt;
+
+UPDATE test.tbl_google_amp_cnts_128_new SET direct=cnt-(google_amp+google_weblight+se_paid+se_non_paid) WHERE search_date='2022-01-05';
+
+############################################################################################
+
+*do this for all types
+
+
+CREATE TABLE `tbl_level_2_split_202203` (
+  `national_catid` INT NOT NULL DEFAULT '0',
+  `category_name` VARCHAR(255) NOT NULL DEFAULT '',
+  `data_city` VARCHAR(100) NOT NULL DEFAULT '',
+  `pincode` VARCHAR(20) NOT NULL DEFAULT '',
+  `type` VARCHAR(100) NOT NULL DEFAULT '',
+  `total_cnt` INT NOT NULL DEFAULT '0',
+  `tpro` INT NOT NULL DEFAULT '0',
+  `APP` INT NOT NULL DEFAULT '0',
+  `WAP2` INT NOT NULL DEFAULT '0',
+  `jdlite` INT NOT NULL DEFAULT '0',
+  `IOS` INT NOT NULL DEFAULT '0',
+  `web` INT NOT NULL DEFAULT '0',
+  `iro` INT NOT NULL DEFAULT '0',
+  `WAP` INT NOT NULL DEFAULT '0',
+  PRIMARY KEY (`national_catid`,`data_city`,`pincode`,`type`),
+  KEY `national_catid` (`national_catid`,`data_city`,`pincode`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+
+
+SELECT 1;
+INSERT INTO test.tbl_level_2_split_202203
+SELECT national_catid,category_name,data_city,pincode,'direct' AS TYPE,SUM(direct) AS total_cnt,SUM(IF(src='tpro',direct,0)) tpro_cnt,SUM(IF(src='APP',direct,0)) APP_cnt,SUM(IF(src='WAP2',direct,0)) WAP2_cnt,SUM(IF(src='jdlite',direct,0)) jdlite_cnt,SUM(IF(src='IOS',direct,0)) IOS_cnt,SUM(IF(src='web',direct,0)) web_cnt,SUM(IF(src='iro',direct,0)) iro_cnt,SUM(IF(src='WAP',direct,0)) WAP_cnt FROM test.tbl_google_amp_cnts_128_new GROUP BY national_catid,data_city,pincode;
+
+

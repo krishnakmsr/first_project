@@ -1,0 +1,101 @@
+databases:
+  mongo:
+    mongo_clicktracker_35_126:
+      host: 192.168.35.126:27017
+      username: misbackend
+      password: misbackend_321
+      database: db_autosuggest
+    mongo_clicktracker_35_126_vipink:
+      host: 192.168.35.126:27017
+      username: vipink
+      password: vipink_123
+      database: db_autosuggest
+    mongo_clicktracker_local:
+      host: localhost:27017
+      database: db_autosuggest
+    mongo_clicktracker_13_65:
+      host: 192.168.13.65:27017
+      database: search_input
+    mongo_searches_13_65:
+      host: 192.168.13.65:27017
+      database: search_input
+    mongo_searches_local:
+      host: localhost:27017
+      database: db_searchmis
+    mongo_searchmis_35_126:
+      host: 192.168.35.126:27017
+      username: misbackend
+      password: misbackend_321
+      database: db_searchmis
+    mongo_mp_clicktracker_13_65:
+      host: 192.168.13.65:27017
+      database: mp_clicktracker  
+  mysql:
+    mis_150_3306:
+      host: 192.168.11.150
+      username: test
+      password: "test"
+      database: test
+      port: 3306
+      use_pure: True
+    dev_17_124_3307:
+      host: 192.168.17.124
+      username: db_datareport
+      password: "db_datareport#!@#"
+      database: dbteam_temp
+      port: 3307
+      use_pure: True
+    dev_local_17_124_3307:
+      host: 192.168.17.124
+      username: vipink
+      password: "vipink#!@#"
+      database: dbteam_temp
+      port: 3307
+      use_pure: True
+    localhost_3306:
+      host: localhost
+      username: root
+      password: "pass"
+      database: dbteam_temp
+      port: 3306
+      use_pure: True
+    search_mis_mongo_lookup_tbl:
+      host: 192.168.12.25
+      username: search_mis_mongo
+      password: "justdial123"
+      database: search_input
+      port: 3306
+      use_pure: True
+    search_mis_149_3306:
+      host: 192.168.11.149
+      username: search_mis
+      password: "justdial123"
+      database: search_input
+      port: 3306
+      use_pure: True
+
+
+
+  elasticsearch:
+    web:
+      host: 192.168.13.65
+      port: 9200
+      timeout: 60
+      max_retries: 3
+    app_and_touch:
+      host: 192.168.41.27
+      port: 9200
+      timeout: 60
+      max_retries: 3
+
+
+
+urls:
+    web_services:
+        url: "http://192.168.20.102:9001/web_services/"
+    ocity_cnt:
+        url: "http://192.168.20.158/services/daily_data/ocity_cnt/"    
+    app_userid:
+        url: "http://192.168.20.13/php/appUserId/"    
+
+

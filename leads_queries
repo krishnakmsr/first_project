@@ -1,0 +1,113 @@
+###Company Leads########
+
+CREATE TABLE test.tbl_company_leads_202204(
+`docid`VARCHAR(255) NOT NULL DEFAULT '',
+`company_name` VARCHAR(100) NOT NULL DEFAULT '',
+`data_city` VARCHAR(100) NOT NULL DEFAULT '',
+`magic_name` VARCHAR(100) NOT NULL DEFAULT '',
+`platform` VARCHAR(50) NOT NULL DEFAULT '',
+`business_flag` VARCHAR(10) NOT NULL DEFAULT '',
+`pincode` VARCHAR(50) NOT NULL DEFAULT '',
+`leads_received` INT(10) NOT NULL DEFAULT 0,
+`paid_leads_served` INT(10) NOT NULL DEFAULT 0,
+`unique_paid_leads_served` INT(10)  NOT NULL DEFAULT 0,
+`paid_leads_generated` INT(10) NOT NULL DEFAULT 0,
+`unique_paid_leads_generated` INT(10) NOT NULL DEFAULT 0,
+`unique_user` INT(10) NOT NULL DEFAULT 0,
+PRIMARY KEY(docid,data_city,magic_name,pincode),
+KEY(data_city),
+KEY(magic_name),
+KEY(pincode)
+)ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+INSERT IGNORE INTO test.tbl_company_leads_202204(docid,data_city,magic_name,pincode,leads_received,paid_leads_served,unique_paid_leads_served,paid_leads_generated,unique_paid_leads_generated,unique_user)
+SELECT docid,data_city,irocode,pincode,COUNT(DISTINCT search_id) leads_received,COUNT(DISTINCT IF(paid=1,CONCAT(docid,search_id),NULL)) paid_leads_served,COUNT(DISTINCT IF(paid=1 AND duplicate_caller=0,CONCAT(docid,search_id),NULL)) unique_leads_served,COUNT(DISTINCT IF(paid=1,search_id,NULL)) paid_leads_generated, COUNT(DISTINCT IF(paid=1 AND duplicate_caller=0,search_id,NULL)) unique_paid_leads_generated,COUNT(DISTINCT callermobile) AS unique_user FROM search_input.tbl_leads_data_202204 GROUP BY docid,data_city,irocode,pincode;
+
+UPDATE test.tbl_company_leads_202204 a JOIN test.tbl_best_deal_list b ON a.magic_name = b.magic_name SET a.platform=b.source;
+
+
+UPDATE test.tbl_company_leads_202204 a JOIN test.tbl_b2b_panindia_data b ON a.docid=b.docid SET a.company_name=b.companyname;
+
+UPDATE test.tbl_company_leads_202204 a JOIN test.tbl_b2b_panindia_data b ON a.docid=b.docid SET a.business_flag= 1  WHERE b.b2b_flag=1;
+UPDATE test.tbl_company_leads_202204 a JOIN test.tbl_b2b_panindia_data b ON a.docid=b.docid SET a.business_flag= 2  WHERE b.b2c_flag=1;
+UPDATE test.tbl_company_leads_202204 a JOIN test.tbl_b2b_panindia_data b ON a.docid=b.docid SET a.business_flag= 3  WHERE b.both_flag=1;
+
+#####################
+
+CREATE TABLE test.tbl_category_leads_202204(
+`national_catid` INT(11)  NOT NULL DEFAULT 0,
+`category_name` VARCHAR(50) NOT NULL DEFAULT '',
+`data_city` VARCHAR(45)NOT NULL DEFAULT '',
+`magic_name` VARCHAR(45) NOT NULL DEFAULT '',
+`platform` VARCHAR(50) NOT NULL DEFAULT '',
+`business_flag` VARCHAR(10) NOT NULL DEFAULT '',
+`pincode` VARCHAR(50)NOT NULL DEFAULT '',
+`leads_received` INT(10) NOT NULL DEFAULT 0,
+`paid_leads_served` INT(10)  NOT NULL DEFAULT 0,
+`unique_paid_leads_served` INT(10) NOT NULL DEFAULT 0,
+`paid_leads_generated` INT(10)  NOT NULL DEFAULT 0,
+`unique_paid_leads_generated` INT(10)  NOT NULL DEFAULT 0,
+PRIMARY KEY(national_catid,data_city,magic_name,pincode),
+KEY(data_city),
+KEY(magic_name),
+KEY(pincode)
+)ENGINE=INNODB;
+
+INSERT IGNORE INTO test.tbl_category_leads_202204(national_catid,data_city,magic_name,pincode,leads_received,paid_leads_served,unique_paid_leads_served,paid_leads_generated,unique_paid_leads_generated)
+SELECT national_catid,data_city,irocode,pincode,COUNT(DISTINCT search_id) leads_received,COUNT(DISTINCT IF(paid=1,CONCAT(docid,search_id),NULL)) paid_leads_served_user,COUNT(DISTINCT IF(paid=1 AND duplicate_caller=0,CONCAT(docid,search_id),NULL)) paid_leads_served_vendor ,COUNT(DISTINCT IF(paid=1,search_id,NULL)) paid_leads_generated, COUNT(DISTINCT IF(paid=1 AND duplicate_caller=0,search_id,NULL)) unique_paid_leads_generated FROM search_input.tbl_leads_data_202204 GROUP BY national_catid,data_city,irocode,pincode;
+
+UPDATE test.tbl_category_leads_202204 a JOIN test.tbl_best_deal_list b ON a.magic_name = b.magic_name SET a.platform=b.source;
+
+UPDATE test.tbl_category_leads_202204 a JOIN test.tbl_categorymaster_universal b ON a.national_catid=b.national_catid SET a.category_name=b.category_name;
+
+UPDATE test.tbl_category_leads_202204 a JOIN test.tbl_categorymaster_universal b ON a.national_catid=b.national_catid SET a.business_flag=b.business_flag;
+
+##################
+#######################################################
+mysql -h 192.168.42.67 -u krishnak -p'kR!shn@k@#$#1'
+
+##### category leads yearly table ########################################################
+
+CREATE TABLE test.tbl_category_leads_2019(
+`entry_month` VARCHAR(100) NOT NULL DEFAULT '',
+`national_catid` INT(11) NOT NULL DEFAULT 0,
+`category_name` VARCHAR(100) NOT NULL DEFAULT '',
+`data_city` VARCHAR(100) NOT NULL DEFAULT '',
+`magic_name` VARCHAR(100) NOT NULL DEFAULT '',
+`platform` VARCHAR(50) NOT NULL DEFAULT '',
+`business_flag` VARCHAR(10) NOT NULL DEFAULT '',
+`pincode` VARCHAR(50) NOT NULL DEFAULT '',
+`leads_received` INT(10) NULL DEFAULT 0,
+`paid_leads_served` INT(10) NULL DEFAULT 0,
+`unique_paid_leads_served` INT(10) NULL DEFAULT 0,
+`paid_leads_generated` INT(10) NULL DEFAULT 0,
+`unique_paid_leads_generated` INT(10) NULL DEFAULT 0,
+PRIMARY KEY(national_catid,data_city,magic_name,pincode,entry_month),
+KEY(data_city),
+KEY(magic_name),
+KEY(pincode),
+KEY(entry_month)
+)ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+SELECT CONCAT("insert ignore into test.tbl_category_leads_2019(entry_month,national_catid,data_city,magic_name,pincode,leads_received,paid_leads_served,unique_paid_leads_served,paid_leads_generated,unique_paid_leads_generated)
+SELECT REPLACE(SUBSTRING_INDEX(searchdate,'-',2),'-','') as entry_month,national_catid,data_city,irocode,pincode,COUNT(DISTINCT search_id) leads_received,COUNT(DISTINCT IF(paid=1,CONCAT(docid,search_id),null)) paid_leads_served_user,COUNT(DISTINCT IF(paid=1 and duplicate_caller=0,CONCAT(docid,search_id),null)) paid_leads_served_vendor ,COUNT(DISTINCT IF(paid=1,search_id,null)) paid_leads_generated, COUNT(DISTINCT IF(paid=1 and duplicate_caller=0,search_id,null)) unique_paid_leads_generated FROM search_input.",TABLE_NAME," GROUP BY national_catid,data_city,irocode,pincode,entry_month;") FROM information_schema.tables WHERE table_schema='search_input' AND TABLE_NAME LIKE '%tbl_leads_data_2019__';
+
+
+UPDATE test.tbl_category_leads_2019 a JOIN test.tbl_best_deal_list b ON a.magic_name = b.magic_name SET a.platform=b.source;
+
+UPDATE test.tbl_category_leads_2019 a JOIN test.tbl_categorymaster_universal b ON a.national_catid=b.national_catid SET a.category_name=b.category_name;
+
+UPDATE test.tbl_category_leads_2019 a JOIN test.tbl_categorymaster_universal b ON a.national_catid=b.national_catid SET a.business_flag=b.business_flag;
+
+
+######
+
+
+INSERT INTO tbl_lead_city_pincode_cnts_2020(national_catid,category_name,data_city,pincode,magic_name,platform,paid_leads_served_dec2020,paid_leads_generated_dec2020,unique_paid_leads_served_dec2020,unique_paid_leads_generated_dec2020,leads_received_dec2020)
+SELECT national_catid,category_name,data_city,pincode,magic_name,platform,paid_leads_served_user,paid_leads_generated,paid_leads_served_vendor,unique_paid_leads_generated,leads_received FROM tbl_category_leads_202011 a  ON DUPLICATE KEY UPDATE 
+tbl_lead_city_pincode_cnts_2020.paid_leads_served_dec2020=tbl_lead_city_pincode_cnts_2020.paid_leads_served_dec2020+a.paid_leads_served_user,
+tbl_lead_city_pincode_cnts_2020.paid_leads_generated_dec2020=tbl_lead_city_pincode_cnts_2020.paid_leads_generated_dec2020+a.paid_leads_generated,
+tbl_lead_city_pincode_cnts_2020.unique_paid_leads_served_dec2020=tbl_lead_city_pincode_cnts_2020.unique_paid_leads_served_dec2020+a.paid_leads_served_vendor,
+tbl_lead_city_pincode_cnts_2020.unique_paid_leads_generated_dec2020=tbl_lead_city_pincode_cnts_2020.unique_paid_leads_generated_dec2020+a.unique_paid_leads_generated,
+tbl_lead_city_pincode_cnts_2020.leads_received_dec2020=tbl_lead_city_pincode_cnts_2020.leads_received_dec2020+a.leads_received;
+

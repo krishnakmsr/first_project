@@ -1,0 +1,227 @@
+CREATE TABLE test.tbl_temp_202110(KEY(data_city,national_catid,pincode))
+SELECT '202110' entry_month,`entry_date`,`data_city`,`city`,`national_catid`,`catid`,`pincode`,`src`,
+SUM(IF(src='iro',(p_cnt + p_cnt_repeat + p_pg_cnt + p_pg_cnt_repeat), p_cnt)) AS total_cnt, 
+SUM(IF(src = 'app',p_cnt,0)) AS app_cnt, 
+SUM(IF(src = 'wap2',p_cnt,0)) AS wap2_cnt,
+SUM(IF(src = 'web',p_cnt,0)) AS web_cnt,
+SUM(IF(src = 'ios',p_cnt,0)) AS ios_cnt,
+SUM(IF(src = 'jdlite',p_cnt,0)) AS jdlite_cnt,
+SUM(IF(src = 'iro',(p_cnt + p_cnt_repeat + p_pg_cnt + p_pg_cnt_repeat),0)) AS iro_cnt,
+SUM(IF(src = 'wap',p_cnt,0)) AS wap_cnt,
+SUM(IF(src = 'win',p_cnt,0)) AS win_cnt,
+SUM(IF(src = 'tpro',p_cnt,0)) AS tpro_cnt
+FROM search_input.tbl_srcwise_catid_national_catid_cnt_202110 GROUP BY `entry_date`,`data_city`,`city`,`national_catid`,`catid`,`pincode`,`src`
+
+CREATE TABLE  test.tmp_ncatid_pincode_cnts_202110(KEY(data_city,national_catid,pincode))
+SELECT entry_month,national_catid,data_city,pincode,SUM(total_cnt) total_cnt,SUM(app_cnt) app_cnt,SUM(wap2_cnt) wap2_cnt,SUM(web_cnt) web_cnt,SUM(ios_cnt) ios_cnt,SUM(jdlite_cnt) jdlite_cnt,SUM(iro_cnt) iro_cnt,SUM(wap_cnt) wap_cnt,SUM(win_cnt) win_cnt,SUM(tpro_cnt) tpro_cnt FROM test.tbl_temp_202110 GROUP BY data_city,national_catid,pincode;
+
+
+
+
+###############
+
+
+
+
+CREATE TABLE test.`tbl_national_catid_city_pincode_cnts_2021` (
+  `national_catid` INT NOT NULL DEFAULT '0',
+  `category_name` VARCHAR(255) NOT NULL DEFAULT '',
+  `data_city` VARCHAR(100) NOT NULL DEFAULT '',
+  `pincode` VARCHAR(100) NOT NULL DEFAULT '',
+  `state` VARCHAR(255)  NOT NULL DEFAULT '',
+  `total_2021` INT NOT NULL DEFAULT '0',
+  `web_2021` INT NOT NULL DEFAULT '0',
+  `iro_2021` INT NOT NULL DEFAULT '0',
+  `mobile_2021` INT NOT NULL DEFAULT '0',
+  `jdapp_2021` INT NOT NULL DEFAULT '0',
+  `jdlite_2021` INT NOT NULL DEFAULT '0',
+  `ios_2021` INT NOT NULL DEFAULT '0',
+  `total_jan2021` INT NOT NULL DEFAULT '0',
+  `web_jan2021` INT NOT NULL DEFAULT '0',
+  `iro_jan2021` INT NOT NULL DEFAULT '0',
+  `mobile_jan2021` INT NOT NULL DEFAULT '0',
+  `jdapp_jan2021` INT NOT NULL DEFAULT '0',
+  `jdlite_jan2021` INT NOT NULL DEFAULT '0',
+  `ios_jan2021` INT NOT NULL DEFAULT '0',
+  `total_feb2021` INT NOT NULL DEFAULT '0',
+  `web_feb2021` INT NOT NULL DEFAULT '0',
+  `iro_feb2021` INT NOT NULL DEFAULT '0',
+  `mobile_feb2021` INT NOT NULL DEFAULT '0',
+  `jdapp_feb2021` INT NOT NULL DEFAULT '0',
+  `jdlite_feb2021` INT NOT NULL DEFAULT '0',
+  `ios_feb2021` INT NOT NULL DEFAULT '0',
+  `total_mar2021` INT NOT NULL DEFAULT '0',
+  `web_mar2021` INT NOT NULL DEFAULT '0',
+  `iro_mar2021` INT NOT NULL DEFAULT '0',
+  `mobile_mar2021` INT NOT NULL DEFAULT '0',
+  `jdapp_mar2021` INT NOT NULL DEFAULT '0',
+  `jdlite_mar2021` INT NOT NULL DEFAULT '0',
+  `ios_mar2021` INT NOT NULL DEFAULT '0',
+  `total_apr2021` INT NOT NULL DEFAULT '0',
+  `web_apr2021` INT NOT NULL DEFAULT '0',
+  `iro_apr2021` INT NOT NULL DEFAULT '0',
+  `mobile_apr2021` INT NOT NULL DEFAULT '0',
+  `jdapp_apr2021` INT NOT NULL DEFAULT '0',
+  `jdlite_apr2021` INT NOT NULL DEFAULT '0',
+  `ios_apr2021` INT NOT NULL DEFAULT '0',
+  `total_may2021` INT NOT NULL DEFAULT '0',
+  `web_may2021` INT NOT NULL DEFAULT '0',
+  `iro_may2021` INT NOT NULL DEFAULT '0',
+  `mobile_may2021` INT NOT NULL DEFAULT '0',
+  `jdapp_may2021` INT NOT NULL DEFAULT '0',
+  `jdlite_may2021` INT NOT NULL DEFAULT '0',
+  `ios_may2021` INT NOT NULL DEFAULT '0',
+  `total_jun2021` INT NOT NULL DEFAULT '0',
+  `web_jun2021` INT NOT NULL DEFAULT '0',
+  `iro_jun2021` INT NOT NULL DEFAULT '0',
+  `mobile_jun2021` INT NOT NULL DEFAULT '0',
+  `jdapp_jun2021` INT NOT NULL DEFAULT '0',
+  `jdlite_jun2021` INT NOT NULL DEFAULT '0',
+  `ios_jun2021` INT NOT NULL DEFAULT '0',
+  `total_jul2021` INT NOT NULL DEFAULT '0',
+  `web_jul2021` INT NOT NULL DEFAULT '0',
+  `iro_jul2021` INT NOT NULL DEFAULT '0',
+  `mobile_jul2021` INT NOT NULL DEFAULT '0',
+  `jdapp_jul2021` INT NOT NULL DEFAULT '0',
+  `jdlite_jul2021` INT NOT NULL DEFAULT '0',
+  `ios_jul2021` INT NOT NULL DEFAULT '0',
+  `total_aug2021` INT NOT NULL DEFAULT '0',
+  `web_aug2021` INT NOT NULL DEFAULT '0',
+  `iro_aug2021` INT NOT NULL DEFAULT '0',
+  `mobile_aug2021` INT NOT NULL DEFAULT '0',
+  `jdapp_aug2021` INT NOT NULL DEFAULT '0',
+  `jdlite_aug2021` INT NOT NULL DEFAULT '0',
+  `ios_aug2021` INT NOT NULL DEFAULT '0',
+  `total_sep2021` INT NOT NULL DEFAULT '0',
+  `web_sep2021` INT NOT NULL DEFAULT '0',
+  `iro_sep2021` INT NOT NULL DEFAULT '0',
+  `mobile_sep2021` INT NOT NULL DEFAULT '0',
+  `jdapp_sep2021` INT NOT NULL DEFAULT '0',
+  `jdlite_sep2021` INT NOT NULL DEFAULT '0',
+  `ios_sep2021` INT NOT NULL DEFAULT '0',
+  `total_oct2021` INT NOT NULL DEFAULT '0',
+  `web_oct2021` INT NOT NULL DEFAULT '0',
+  `iro_oct2021` INT NOT NULL DEFAULT '0',
+  `mobile_oct2021` INT NOT NULL DEFAULT '0',
+  `jdapp_oct2021` INT NOT NULL DEFAULT '0',
+  `jdlite_oct2021` INT NOT NULL DEFAULT '0',
+  `ios_oct2021` INT NOT NULL DEFAULT '0',
+  `total_nov2021` INT NOT NULL DEFAULT '0',
+  `web_nov2021` INT NOT NULL DEFAULT '0',
+  `iro_nov2021` INT NOT NULL DEFAULT '0',
+  `mobile_nov2021` INT NOT NULL DEFAULT '0',
+  `jdapp_nov2021` INT NOT NULL DEFAULT '0',
+  `jdlite_nov2021` INT NOT NULL DEFAULT '0',
+  `ios_nov2021` INT NOT NULL DEFAULT '0',
+  `total_dec2021` INT NOT NULL DEFAULT '0',
+  `web_dec2021` INT NOT NULL DEFAULT '0',
+  `iro_dec2021` INT NOT NULL DEFAULT '0',
+  `mobile_dec2021` INT NOT NULL DEFAULT '0',
+  `jdapp_dec2021` INT NOT NULL DEFAULT '0',
+  `jdlite_dec2021` INT NOT NULL DEFAULT '0',
+  `ios_dec2021` INT NOT NULL DEFAULT '0',
+  PRIMARY KEY (`national_catid`,`data_city`,`pincode`),
+  KEY `data_city` (`data_city`),
+  KEY `pincode` (`pincode`),
+  KEY `category_name` (`category_name`),
+  KEY `state` (`state`)
+) ENGINE=INNODB DEFAULT CHARSET=latin1;
+
+
+
+
+
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_jan2021,web_jan2021,iro_jan2021,mobile_jan2021,jdapp_jan2021,jdlite_jan2021,ios_jan2021)
+SELECT national_catid,data_city,pincode,SUM(total_cnt) AS total_cnt,SUM(web_cnt) AS web_cnt,SUM(iro_cnt) AS iro_cnt,SUM(tpro_cnt+wap2_cnt+wap_cnt) AS mobile_cnt,SUM(app_cnt) AS app_cnt,SUM(jdlite_cnt) AS jdlite_cnt,SUM(ios_cnt) AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202101 GROUP BY national_catid,data_city,pincode;
+
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_feb2021,web_feb2021,iro_feb2021,mobile_feb2021,jdapp_feb2021,jdlite_feb2021,ios_feb2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202102 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_feb2021=tbl_national_catid_city_pincode_cnts_2021.total_feb2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_feb2021=tbl_national_catid_city_pincode_cnts_2021.web_feb2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_feb2021=tbl_national_catid_city_pincode_cnts_2021.iro_feb2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_feb2021=tbl_national_catid_city_pincode_cnts_2021.mobile_feb2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_feb2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_feb2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_feb2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_feb2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_feb2021=tbl_national_catid_city_pincode_cnts_2021.ios_feb2021+a.ios_cnt;
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_mar2021,web_mar2021,iro_mar2021,mobile_mar2021,jdapp_mar2021,jdlite_mar2021,ios_mar2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202103 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_mar2021=tbl_national_catid_city_pincode_cnts_2021.total_mar2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_mar2021=tbl_national_catid_city_pincode_cnts_2021.web_mar2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_mar2021=tbl_national_catid_city_pincode_cnts_2021.iro_mar2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_mar2021=tbl_national_catid_city_pincode_cnts_2021.mobile_mar2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_mar2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_mar2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_mar2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_mar2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_mar2021=tbl_national_catid_city_pincode_cnts_2021.ios_mar2021+a.ios_cnt;
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_apr2021,web_apr2021,iro_apr2021,mobile_apr2021,jdapp_apr2021,jdlite_apr2021,ios_apr2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202104 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_apr2021=tbl_national_catid_city_pincode_cnts_2021.total_apr2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_apr2021=tbl_national_catid_city_pincode_cnts_2021.web_apr2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_apr2021=tbl_national_catid_city_pincode_cnts_2021.iro_apr2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_apr2021=tbl_national_catid_city_pincode_cnts_2021.mobile_apr2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_apr2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_apr2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_apr2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_apr2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_apr2021=tbl_national_catid_city_pincode_cnts_2021.ios_apr2021+a.ios_cnt;
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_may2021,web_may2021,iro_may2021,mobile_may2021,jdapp_may2021,jdlite_may2021,ios_may2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202105 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_may2021=tbl_national_catid_city_pincode_cnts_2021.total_may2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_may2021=tbl_national_catid_city_pincode_cnts_2021.web_may2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_may2021=tbl_national_catid_city_pincode_cnts_2021.iro_may2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_may2021=tbl_national_catid_city_pincode_cnts_2021.mobile_may2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_may2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_may2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_may2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_may2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_may2021=tbl_national_catid_city_pincode_cnts_2021.ios_may2021+a.ios_cnt;
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_jun2021,web_jun2021,iro_jun2021,mobile_jun2021,jdapp_jun2021,jdlite_jun2021,ios_jun2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202106 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_jun2021=tbl_national_catid_city_pincode_cnts_2021.total_jun2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_jun2021=tbl_national_catid_city_pincode_cnts_2021.web_jun2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_jun2021=tbl_national_catid_city_pincode_cnts_2021.iro_jun2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_jun2021=tbl_national_catid_city_pincode_cnts_2021.mobile_jun2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_jun2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_jun2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_jun2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_jun2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_jun2021=tbl_national_catid_city_pincode_cnts_2021.ios_jun2021+a.ios_cnt;
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_jul2021,web_jul2021,iro_jul2021,mobile_jul2021,jdapp_jul2021,jdlite_jul2021,ios_jul2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202107 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_jul2021=tbl_national_catid_city_pincode_cnts_2021.total_jul2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_jul2021=tbl_national_catid_city_pincode_cnts_2021.web_jul2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_jul2021=tbl_national_catid_city_pincode_cnts_2021.iro_jul2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_jul2021=tbl_national_catid_city_pincode_cnts_2021.mobile_jul2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_jul2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_jul2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_jul2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_jul2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_jul2021=tbl_national_catid_city_pincode_cnts_2021.ios_jul2021+a.ios_cnt;
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_aug2021,web_aug2021,iro_aug2021,mobile_aug2021,jdapp_aug2021,jdlite_aug2021,ios_aug2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202108 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_aug2021=tbl_national_catid_city_pincode_cnts_2021.total_aug2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_aug2021=tbl_national_catid_city_pincode_cnts_2021.web_aug2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_aug2021=tbl_national_catid_city_pincode_cnts_2021.iro_aug2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_aug2021=tbl_national_catid_city_pincode_cnts_2021.mobile_aug2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_aug2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_aug2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_aug2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_aug2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_aug2021=tbl_national_catid_city_pincode_cnts_2021.ios_aug2021+a.ios_cnt;
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_sep2021,web_sep2021,iro_sep2021,mobile_sep2021,jdapp_sep2021,jdlite_sep2021,ios_sep2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202109 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_sep2021=tbl_national_catid_city_pincode_cnts_2021.total_sep2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_sep2021=tbl_national_catid_city_pincode_cnts_2021.web_sep2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_sep2021=tbl_national_catid_city_pincode_cnts_2021.iro_sep2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_sep2021=tbl_national_catid_city_pincode_cnts_2021.mobile_sep2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_sep2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_sep2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_sep2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_sep2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_sep2021=tbl_national_catid_city_pincode_cnts_2021.ios_sep2021+a.ios_cnt;
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_oct2021,web_oct2021,iro_oct2021,mobile_oct2021,jdapp_oct2021,jdlite_oct2021,ios_oct2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202110 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_oct2021=tbl_national_catid_city_pincode_cnts_2021.total_oct2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_oct2021=tbl_national_catid_city_pincode_cnts_2021.web_oct2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_oct2021=tbl_national_catid_city_pincode_cnts_2021.iro_oct2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_oct2021=tbl_national_catid_city_pincode_cnts_2021.mobile_oct2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_oct2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_oct2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_oct2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_oct2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_oct2021=tbl_national_catid_city_pincode_cnts_2021.ios_oct2021+a.ios_cnt;
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_nov2021,web_nov2021,iro_nov2021,mobile_nov2021,jdapp_nov2021,jdlite_nov2021,ios_nov2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202111 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_nov2021=tbl_national_catid_city_pincode_cnts_2021.total_nov2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_nov2021=tbl_national_catid_city_pincode_cnts_2021.web_nov2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_nov2021=tbl_national_catid_city_pincode_cnts_2021.iro_nov2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_nov2021=tbl_national_catid_city_pincode_cnts_2021.mobile_nov2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_nov2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_nov2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_nov2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_nov2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_nov2021=tbl_national_catid_city_pincode_cnts_2021.ios_nov2021+a.ios_cnt;
+
+
+INSERT INTO tbl_national_catid_city_pincode_cnts_2021 (national_catid,data_city,pincode,total_dec2021,web_dec2021,iro_dec2021,mobile_dec2021,jdapp_dec2021,jdlite_dec2021,ios_dec2021)
+SELECT national_catid,data_city,pincode,total_cnt AS total_cnt,web_cnt AS web_cnt,iro_cnt AS iro_cnt,tpro_cnt+wap2_cnt+wap_cnt AS mobile_cnt,app_cnt AS app_cnt,jdlite_cnt AS jdlite_cnt,ios_cnt AS ios_cnt FROM test.tmp_ncatid_pincode_cnts_202112 a 
+ON DUPLICATE KEY UPDATE 
+tbl_national_catid_city_pincode_cnts_2021.total_dec2021=tbl_national_catid_city_pincode_cnts_2021.total_dec2021+a.total_cnt,tbl_national_catid_city_pincode_cnts_2021.web_dec2021=tbl_national_catid_city_pincode_cnts_2021.web_dec2021+a.web_cnt,tbl_national_catid_city_pincode_cnts_2021.iro_dec2021=tbl_national_catid_city_pincode_cnts_2021.iro_dec2021+a.iro_cnt,
+tbl_national_catid_city_pincode_cnts_2021.mobile_dec2021=tbl_national_catid_city_pincode_cnts_2021.mobile_dec2021+a.tpro_cnt+a.wap2_cnt+a.wap_cnt,
+tbl_national_catid_city_pincode_cnts_2021.jdapp_dec2021=tbl_national_catid_city_pincode_cnts_2021.jdapp_dec2021+a.app_cnt,tbl_national_catid_city_pincode_cnts_2021.jdlite_dec2021=tbl_national_catid_city_pincode_cnts_2021.jdlite_dec2021+a.jdlite_cnt,tbl_national_catid_city_pincode_cnts_2021.ios_dec2021=tbl_national_catid_city_pincode_cnts_2021.ios_dec2021+a.ios_cnt;
+
+
