@@ -1,0 +1,1 @@
+f = open("home/justdial/Desktop/demo.txt", "rt")
